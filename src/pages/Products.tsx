@@ -241,7 +241,7 @@ function CategoryBrowser({
           {categoryMatches.map((item) => (
             <Link
               key={item.id}
-              to={`/products?category=${item.slug}`}
+              to={`/categories/${item.slug}`}
               className="group rounded-sm border border-border bg-white p-4 transition-colors hover:border-gold/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-forest"
               aria-current={activeCategory === item.slug ? "page" : undefined}
             >
