@@ -16,8 +16,8 @@ export const siteConfig = {
   announcement: "Procurement & Supply Solutions for Business",
 
   // Contact details — only shown when a value is provided.
-  phone: "+91 9247633556",
-  email: "kalyanisrinivasu236@gmail.com",
+  phone: "+91 7075539156",
+  email: "contact@kalyanimerchantile.com",
   whatsapp: "",
   address: "", // e.g. "Kakinada, Andhra Pradesh, India"
   businessHours: "", // e.g. "Mon–Sat, 10:00 AM – 6:30 PM"

@@ -8,6 +8,7 @@ import { isAuthenticated } from "@/pages/admin/auth"
 const Home = lazy(() => import("@/pages/Home").then((module) => ({ default: module.Home })))
 const Products = lazy(() => import("@/pages/Products").then((module) => ({ default: module.Products })))
 const ProductDetail = lazy(() => import("@/pages/ProductDetail").then((module) => ({ default: module.ProductDetail })))
+const CategoryDetail = lazy(() => import("@/pages/CategoryDetail").then((module) => ({ default: module.CategoryDetail })))
 const Contact = lazy(() => import("@/pages/Contact").then((module) => ({ default: module.Contact })))
 const About = lazy(() => import("@/pages/About").then((module) => ({ default: module.About })))
 const Industries = lazy(() => import("@/pages/Industries").then((module) => ({ default: module.Industries })))
@@ -48,6 +49,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/categories/:slug" element={<CategoryDetail />} />
         <Route path="/products/:slug" element={<ProductDetail />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
