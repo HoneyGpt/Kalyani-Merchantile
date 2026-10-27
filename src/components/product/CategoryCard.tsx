@@ -47,7 +47,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
         )}
         {category.referenceCount && (
           <p className="mt-3 text-[10px] font-medium uppercase tracking-wide text-gold-ink">
-            {category.referenceCount} reference catalogue entries
+            {category.referenceCount} catalogue options
           </p>
         )}
       </div>

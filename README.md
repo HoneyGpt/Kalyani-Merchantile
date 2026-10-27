@@ -15,18 +15,35 @@ Create a production bundle with:
 npm run build
 ```
 
-The build runs TypeScript checks, creates the Vite bundle, and generates `sitemap.xml` only when the real site URL is configured.
+The build runs TypeScript checks, creates the Vite bundle, and generates `sitemap.xml` for `https://kalyanimerchantile.tech` by default. Set `VITE_SITE_URL` to override the canonical domain for another deployment environment.
 
 ## Current demo-mode behavior
 
-No backend credentials or production enquiry service are configured. The phone number and email supplied by the business have been added to `src/data/siteConfig.ts`; verify they are correct and approved for public use before launch. The category names, sample product types and reference counts supplied for the catalogue are displayed as sourcing taxonomy only—not as Kalyani stock, live product listings or confirmed availability. Product records remain editable sample data, and lift entries remain unpublished until verified.
+The phone number and email supplied by the business are in `src/data/siteConfig.ts`; verify they are approved for public use. The quote form now posts to a Vercel serverless endpoint and sends notification email through Zoho SMTP when the required Vercel environment variables are configured. No SMTP password is stored in frontend code. Until those variables are set, the endpoint fails clearly and the form does not claim the message was sent. Product records remain editable sample data, and lift entries remain unpublished until reviewed.
 
 - The sample lift listings are unpublished and marked unreviewed by default. Their model/product details and any imagery must be checked before publication.
 - The admin area is **not production-secure**. Its demo password gate and local-storage changes only affect the current browser. Do not use it for real customer records or deployed administration.
-- The quote form validates and saves enquiries to the current browser's local storage for preview only. It does **not** email, transmit, or persist enquiries for the business. The confirmation explicitly says this.
+- The quote form sends a POST to `api/contact.js`. Set up its Zoho SMTP credentials in Vercel before accepting enquiries; do not put the SMTP password in the frontend or commit it.
 - RFQ document upload is disabled until a secure backend storage endpoint exists.
 - Empty address, hours, registration and social fields are deliberately hidden. The configured phone and email were provided in the business request; confirm they remain current before launch.
-- `VITE_SITE_URL` should be set to the real canonical domain once selected; otherwise canonical URLs and sitemap output are intentionally omitted rather than fabricated.
+- Canonical URLs and the sitemap use `https://kalyanimerchantile.tech` by default. Set `VITE_SITE_URL` in the Vercel project only when overriding this domain for another environment.
+
+## Enable contact-form email with Zoho on Vercel
+
+In **Vercel → Project → Settings → Environment Variables**, add these values for Production (and Preview if you want to test there):
+
+```text
+ZOHO_SMTP_HOST=smtppro.zoho.in
+ZOHO_SMTP_PORT=465
+ZOHO_SMTP_USER=sales.team@kalyanimerchantile.tech
+ZOHO_SMTP_PASSWORD=<Zoho mailbox/app password>
+CONTACT_TO=sales.team@kalyanimerchantile.tech
+CONTACT_FROM=sales.team@kalyanimerchantile.tech
+```
+
+Zoho supports port 465 with SSL or port 587 with TLS; if you use 587, change `ZOHO_SMTP_PORT` to `587`. If the mailbox has multi-factor authentication, use a Zoho app password. Treat `ZOHO_SMTP_PASSWORD` as a sensitive Vercel secret—never commit it or send it in chat. Redeploy after saving environment variables. The API sends to the fixed `CONTACT_TO` address and sets the visitor's email as Reply-To. Email delivery does not save enquiries to a database or the demo admin list; the receiving mailbox is the record.
+
+The standard Vite dev server does not execute Vercel Functions. Test actual email delivery on a Vercel Preview deployment after setting its environment variables.
 
 ## Catalogue administration in demo mode
 
@@ -39,8 +56,8 @@ Visit `/admin/login` and enter any non-empty value to open the demonstration are
 3. Review proposed categories and hide any category that is not ready.
 4. Connect a Supabase project (or another secured backend). Apply and review `supabase/schema.sql`, configure Auth and add authorized admin user IDs to `public.admin_users` using a trusted provisioning path.
 5. Replace `src/lib/data.ts` local-storage functions with a server-backed data client. Keep public reads limited to published catalogue data; never expose a service-role key in the browser. Keep quote-request reads and updates behind authenticated admin RLS.
-6. Connect the quote form to a protected, server-validated insert path and secure document storage if uploads are needed. Test success, failure, duplicate submissions and data privacy before accepting real enquiries.
-7. Configure `VITE_SITE_URL` to the chosen real HTTPS domain, build again, and verify canonical tags, `robots.txt` and `sitemap.xml` on the deployed site.
+6. Configure and test the Zoho email endpoint in Vercel. If enquiries also need a shared searchable history in the admin area, connect a secured database; email delivery alone does not persist them there. Add secure document storage separately if uploads are needed.
+7. In Vercel, confirm `kalyanimerchantile.tech` is attached to the production project and HTTPS is active. If using another canonical domain, set `VITE_SITE_URL`, redeploy, and verify canonical tags, `robots.txt` and `sitemap.xml`.
 8. Test keyboard access, mobile widths, every route, published product details, filters and quote prefill before launch.
 
 ## Project structure
@@ -50,4 +67,4 @@ Visit `/admin/login` and enter any non-empty value to open the demonstration are
 - `src/pages/` — public pages and demonstration admin screens
 - `src/lib/data.ts` — current local-storage data adapter; intended backend seam
 - `supabase/schema.sql` — initial schema and row-level security policies for a future Supabase connection
-- `scripts/generate-sitemap.mjs` — creates a sitemap only when `VITE_SITE_URL` is a configured absolute URL
+- `scripts/generate-sitemap.mjs` — creates a sitemap using the selected production domain, with `VITE_SITE_URL` as an optional override

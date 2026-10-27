@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { SEO } from "@/components/SEO"
 import { Button } from "@/components/ui/button"
-import { addQuoteRequest } from "@/lib/data"
 import { configuredEmailHref, configuredPhoneHref, configuredWhatsAppHref } from "@/lib/contactLinks"
 import { siteConfig } from "@/data/siteConfig"
 
@@ -26,13 +25,14 @@ const quoteSchema = z.object({
       z.object({
         productName: z.string().min(1, "Please name the product or requirement"),
         modelNumber: z.string().optional(),
-        quantity: z.number().min(1, "Quantity must be at least 1"),
+        quantity: z.number().int().min(1, "Quantity must be at least 1").max(100000, "Please enter a smaller quantity"),
         notes: z.string().optional(),
       })
     )
     .min(1, "Please add at least one product"),
   purchaseTimeline: z.string().optional(),
   additionalNotes: z.string().optional(),
+  website: z.string().optional(), // Honeypot field for simple bot filtering.
   consent: z.boolean().refine((v) => v === true, {
     message: "You must consent to our privacy notice",
   })
@@ -79,6 +79,7 @@ export function Contact() {
       ],
       purchaseTimeline: "",
       additionalNotes: "",
+      website: "",
       consent: false,
     },
   })
@@ -94,36 +95,21 @@ export function Contact() {
     setSubmitError(null)
 
     try {
-    // Demo mode: no backend is connected. Persist the enquiry locally and mark
-    // it explicitly as a demo record. A real integration would send this to a
-    // protected endpoint via an edge function; never expose service-role keys
-    // in frontend code. Do not claim the enquiry was emailed unless the
-    // backend action succeeded.
-    await new Promise((resolve) => setTimeout(resolve, 1200))
-
-    addQuoteRequest({
-      contactName: values.contactName,
-      companyName: values.companyName,
-      email: values.email,
-      phone: values.phone,
-      deliveryLocation: `${values.deliveryCity}, ${values.deliveryState}`,
-      preferredContact: values.preferredContact,
-      requestedItems: values.items.map((i) => ({
-        productId: null,
-        productName: i.productName,
-        modelNumber: i.modelNumber || null,
-        quantity: i.quantity,
-        notes: i.notes || null,
-      })),
-      purchaseTimeline: values.purchaseTimeline || null,
-      additionalNotes: values.additionalNotes || null,
-      documentUrl: null,
-    })
-
-    setSubmitStatus("success")
-    } catch {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      })
+      const result = await response.json().catch(() => ({})) as { error?: string }
+      if (!response.ok) {
+        throw new Error(result.error || "Your enquiry could not be sent. Please try again.")
+      }
+      setSubmitStatus("success")
+    } catch (error) {
       setSubmitStatus("error")
-      setSubmitError("Your enquiry could not be saved in this browser. Check browser storage and try again.")
+      setSubmitError(error instanceof Error
+        ? error.message
+        : `We couldn’t send your enquiry. Please email ${siteConfig.email} directly.`)
     } finally {
       setIsSubmitting(false)
     }
@@ -143,13 +129,11 @@ export function Contact() {
               Thank you for your enquiry
             </h2>
             <p className="text-slate leading-relaxed mb-8 max-w-lg mx-auto">
-              Your demo enquiry has been saved in this browser. It has not been
-              sent to Kalyani Mercantile because a production enquiry service
-              is not connected yet.
+              Your enquiry has been sent to Kalyani Mercantile. We’ll follow
+              up using the contact details and method you provided.
             </p>
             <p className="text-xs text-slate/50 mb-10">
-              This demo does not notify the business or trigger a response. A
-              secure production enquiry service must be connected before launch.
+              For a copy or follow-up, reply to the contact details you provided.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button variant="forest" asChild onClick={() => navigate("/")}>
@@ -224,6 +208,10 @@ export function Contact() {
           <div className="lg:col-span-8">
               <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
+              <div className="absolute -left-[10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                <label htmlFor="quote-website-trap">Leave this field empty</label>
+                <input id="quote-website-trap" {...form.register("website")} tabIndex={-1} autoComplete="off" />
+              </div>
               <h2 className="text-2xl font-semibold mb-2">Request a Quote</h2>
               <p className="text-slate mb-6">
                 Share your requirement below. You can add multiple products to
@@ -361,10 +349,9 @@ export function Contact() {
                   htmlFor="consent"
                   className="text-sm text-slate leading-relaxed"
                 >
-                  I agree that these details may be used to review this
-                  sourcing enquiry. This demo form stores data only in this
-                  browser; a production privacy policy and secure enquiry
-                  service must be configured before launch.
+                  I agree that Kalyani Mercantile may use these details to
+                  respond to my sourcing enquiry and coordinate the requested
+                  quotation.
                 </label>
               </div>
               {form.formState.errors.consent && (
@@ -439,7 +426,7 @@ function ItemRow({
         error={itemErrors?.[index]?.modelNumber?.message}
       />
       <TextField
-        {...form.register(`items.${index}.quantity`)}
+        {...form.register(`items.${index}.quantity`, { valueAsNumber: true })}
         type="number"
         label="Quantity"
         placeholder="1"

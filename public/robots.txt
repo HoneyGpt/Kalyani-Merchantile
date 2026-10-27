@@ -1,5 +1,3 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
-
-# A Sitemap entry is generated at build time only after VITE_SITE_URL is configured.

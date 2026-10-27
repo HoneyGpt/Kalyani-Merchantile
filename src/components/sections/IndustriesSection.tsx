@@ -3,9 +3,9 @@ import { ArrowRight } from "lucide-react"
 
 const industries = [
   {
-    title: "Construction & Infrastructure",
+    title: "Roads & Infrastructure",
     description:
-      "Equipment and supplies for building, civil works and infrastructure projects.",
+      "Road tar, construction materials and project supplies for infrastructure requirements.",
     image: "/images/categories/aerial-work-platforms.jpg",
     to: "/industries",
   },
@@ -14,6 +14,20 @@ const industries = [
     description:
       "Plant equipment, tooling and consumables for manufacturing businesses.",
     image: "/images/categories/industrial-equipment.jpg",
+    to: "/industries",
+  },
+  {
+    title: "Food & Dairy Processing",
+    description:
+      "Chemicals and process supplies used in food and dairy production.",
+    image: "/images/categories/chemicals-industrial-consumables.jpg",
+    to: "/industries",
+  },
+  {
+    title: "Office & Institutional Procurement",
+    description:
+      "Stationery, office supplies and multi-item sourcing for organisations.",
+    image: "/images/categories/general-business-procurement.jpg",
     to: "/industries",
   },
   {
@@ -46,8 +60,7 @@ export function IndustriesSection() {
         <div className="mb-16 text-center">
           <h2 className="mb-3">Supporting Diverse Business Requirements</h2>
           <p className="text-slate">
-            Intended customer sectors — we work with businesses across these
-            requirements.
+            From project materials and process supplies to everyday office needs—we support sourcing across these and many other sectors.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -70,7 +83,7 @@ function IndustryLink({ title, description, image, to }: { title: string; descri
         <img src={image} alt={`${title} procurement requirements`} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
       </div>
       <span className="text-[10px] font-semibold tracking-wider text-gold-ink uppercase mb-4">
-        Intended sector
+        Sourcing area
       </span>
       <h3 className="text-lg font-semibold text-forest-dark mb-3">{title}</h3>
       <p className="text-slate text-sm leading-relaxed mb-6 flex-1">

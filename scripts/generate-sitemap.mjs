@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises"
 import { resolve } from "node:path"
 
-const configuredUrl = process.env.VITE_SITE_URL?.trim().replace(/\/$/, "")
+const configuredUrl = (process.env.VITE_SITE_URL?.trim() || "https://kalyanimerchantile.tech").replace(/\/$/, "")
 const dist = resolve("dist")
 
 if (!configuredUrl) {
@@ -13,9 +13,12 @@ if (!/^https?:\/\//i.test(configuredUrl)) {
   throw new Error("VITE_SITE_URL must be an absolute http(s) URL.")
 }
 
-const routes = ["/", "/products", "/industries", "/about", "/contact"]
+const baseRoutes = ["/", "/products", "/industries", "/about", "/contact"]
+const categorySource = await readFile(resolve("src/data/categories.ts"), "utf8")
+const categorySlugs = [...categorySource.matchAll(/^\s*slug:\s*"([^"]+)"/gm)].map((match) => match[1])
+const routes = [...baseRoutes, ...categorySlugs.map((slug) => `/categories/${slug}`)]
 const entries = routes.map((path) => {
-  const priority = path === "/" ? "1.0" : path === "/products" ? "0.9" : "0.7"
+  const priority = path === "/" ? "1.0" : path === "/products" ? "0.9" : path.startsWith("/categories/") ? "0.8" : "0.7"
   return `  <url><loc>${configuredUrl}${path}</loc><changefreq>weekly</changefreq><priority>${priority}</priority></url>`
 })
 const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</urlset>\n`
