@@ -82,7 +82,7 @@ export function AdminCategories() {
         <div>
           <h2 className="text-2xl font-semibold text-forest-dark">Category Management</h2>
           <p className="text-slate mt-2 max-w-2xl">
-            Categories marked hidden are omitted from public browsing. These are proposed catalogue categories; enable only when ready.
+            Manage public sourcing categories, example product types and catalogue descriptions. Hide any category you do not want shown publicly.
           </p>
         </div>
         <Button variant="forest" size="sm" onClick={reset}>Add category</Button>

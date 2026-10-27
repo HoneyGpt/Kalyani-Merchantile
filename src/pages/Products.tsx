@@ -9,7 +9,7 @@ export function Products() {
   const seo = (
     <SEO
       title="Product Catalogue — Industrial Equipment & Supplies"
-      description="Browse equipment and supplies, explore available product information, or request a quotation for your business requirement."
+      description="Browse product categories across industrial, food and dairy, infrastructure, office and everyday business supplies. Share any sourcing requirement for a quotation."
       path="/products"
     />
   )
@@ -180,14 +180,14 @@ function CatalogueHeader({
       <div>
         <h1 className="text-3xl font-semibold tracking-tight">Product Catalogue</h1>
         <p className="text-slate mt-2">
-          Browse equipment and supplies, explore available product information,
-          or request a quotation for your business requirement.
+          Browse industrial, food and dairy, infrastructure, office and everyday
+          business supplies—or send us a requirement outside these categories.
         </p>
       </div>
       <div className="flex flex-wrap items-center gap-4">
-        {total != null && (
+        {total != null && total > 0 && (
           <span className="text-sm text-slate">
-            {showing ?? total} of {total} published products
+            {showing ?? total} product{(showing ?? total) === 1 ? "" : "s"} in the catalogue
           </span>
         )}
         <div className="flex flex-wrap gap-2 bg-ivory/50 border border-border rounded-sm p-2.5">
@@ -232,9 +232,9 @@ function CategoryBrowser({
       <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h2 id="category-browser-title" className="text-xl font-semibold text-forest-dark">Browse product categories</h2>
-          <p className="mt-1 text-sm text-slate">Example product types from the supplied reference catalogue; items are sourced against each requirement.</p>
+          <p className="mt-1 text-sm text-slate">Explore product types and request an itemized quote for the exact specification you need.</p>
         </div>
-        <p className="max-w-sm text-xs leading-relaxed text-slate/70">Reference catalogue counts indicate breadth only. They are not Kalyani stock, live listings or a promise of availability.</p>
+        <p className="max-w-sm text-xs leading-relaxed text-slate/70">Need a brand, model or product that isn’t shown? Send the details and we’ll help source it.</p>
       </div>
       {categoryMatches.length ? (
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
@@ -249,7 +249,7 @@ function CategoryBrowser({
                 <span className="font-semibold leading-snug text-forest-dark">{item.name}</span>
                 <ArrowRight aria-hidden="true" className="mt-1 h-4 w-4 shrink-0 text-gold-ink transition-transform group-hover:translate-x-1" />
               </span>
-              {item.referenceCount && <span className="mt-1 block text-[11px] text-gold-ink">{item.referenceCount} reference entries</span>}
+              {item.referenceCount && <span className="mt-1 block text-[11px] text-gold-ink">{item.referenceCount} catalogue options</span>}
               <span className="mt-2 block text-xs leading-relaxed text-slate/80">
                 {item.subcategories?.length ? item.subcategories.slice(0, 8).join(" · ") : item.description}
                 {item.additionalTypeCount ? ` · +${item.additionalTypeCount} more product types` : !!item.subcategories?.length && item.subcategories.length > 8 ? ` · +${item.subcategories.length - 8} more types` : ""}
@@ -419,12 +419,12 @@ function EmptyState({
   return (
     <div className="mt-12 flex flex-col items-center justify-center text-center py-16 px-6 border border-border rounded-sm bg-ivory/50">
       <h3 className="text-lg font-semibold text-forest-dark mb-2">
-        {noPublishedProducts ? "Product details are being verified." : "No products match your search."}
+        {noPublishedProducts ? "Looking for something specific?" : "No listed items match that search."}
       </h3>
       <p className="text-slate mb-6 max-w-md">
         {noPublishedProducts
-          ? "Category names and example product types are available above. Product-level listings are being verified before publication; you can still share a sourcing requirement."
-          : "Adjust your filters or search terms, and try again."}
+          ? "Browse the category range above or tell us about any requirement—from industrial and dairy-processing supplies to road materials and stationery."
+          : "Try a different search or filter, or send us the product details to explore sourcing options."}
       </p>
       <button
         onClick={onClearSearch}

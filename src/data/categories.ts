@@ -12,7 +12,7 @@ export const categories: Category[] = [
     description: "Boom lifts, scissor lifts and vertical access equipment for work at height.",
     image: "/images/categories/aerial-work-platforms.jpg",
     slug: "aerial-work-platforms",
-    subcategories: [],
+    subcategories: ["Boom Lifts", "Scissor Lifts", "Vertical Mast Lifts", "Access Platforms"],
   },
   {
     id: "abrasives",
@@ -43,6 +43,14 @@ export const categories: Category[] = [
     referenceCount: "22,165+",
     additionalTypeCount: 16,
     subcategories: ["Engine Spares And Parts", "Automobile Electronics", "Tyres & Wheels", "Auto Body Parts", "Car Care", "Automobile Electricals", "Vehicle Tools", "Automotive Cleaning & Detailing"],
+  },
+  {
+    id: "food-dairy-chemicals",
+    name: "Food, Dairy & Process Chemicals",
+    description: "Sourcing for food and dairy production, including chemicals and process supplies used in dairy products.",
+    image: "/images/categories/chemicals-industrial-consumables.jpg",
+    slug: "food-dairy-chemicals",
+    subcategories: ["Chemicals used in dairy products", "Dairy processing chemicals", "Food and beverage process supplies"],
   },
   {
     id: "bearings",
@@ -153,6 +161,22 @@ export const categories: Category[] = [
     referenceCount: "6,498+",
     additionalTypeCount: 46,
     subcategories: ["Network Components", "Camera Accessories", "Mobile", "Cabinet", "Conference Phones", "Electronic Aerosol", "Label Printer", "Laptops"],
+  },
+  {
+    id: "roads-infrastructure",
+    name: "Roads & Infrastructure",
+    description: "Road construction and infrastructure sourcing, including tar and project materials.",
+    image: "/images/categories/industrial-equipment.jpg",
+    slug: "roads-infrastructure",
+    subcategories: ["Road tar for road works", "Road construction materials", "Infrastructure project supplies"],
+  },
+  {
+    id: "stationery-office-supplies",
+    name: "Stationery & Office Supplies",
+    description: "Everyday stationery and office supplies for businesses, institutions and project teams.",
+    image: "/images/categories/general-business-procurement.jpg",
+    slug: "stationery-office-supplies",
+    subcategories: ["Paper & notebooks", "Pens & writing supplies", "Files & folders", "Office consumables"],
   },
   {
     id: "safety",

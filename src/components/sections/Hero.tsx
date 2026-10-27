@@ -14,10 +14,10 @@ export function Hero() {
             </p>
             <h1 className="mb-6 text-balance">{siteConfig.tagline}</h1>
             <p className="text-slate text-lg leading-relaxed mb-8 max-w-lg">
-              From industrial equipment to essential business supplies, Kalyani
-              Mercantile helps businesses source the products they need with a
-              focus on clear communication, competitive quotations and
-              dependable coordination.
+              From industrial equipment and dairy-processing chemicals to road
+              materials and stationery, Kalyani Mercantile sources for diverse
+              business needs. Need something outside these examples? Tell us
+              what your project requires.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button variant="forest" size="lg" asChild>

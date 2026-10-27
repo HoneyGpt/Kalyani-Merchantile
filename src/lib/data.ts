@@ -15,7 +15,7 @@ import { categories as baseCategories } from "@/data/categories"
 import type { Product, Category, QuoteRequest } from "@/types/catalog"
 
 const PRODUCTS_KEY = "km-demo-products"
-const CATEGORIES_KEY = "km-demo-categories-v2"
+const CATEGORIES_KEY = "km-demo-categories-v5"
 const QUOTES_KEY = "km-demo-quote-requests"
 
 function seedProducts(): Product[] {

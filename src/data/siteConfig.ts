@@ -9,15 +9,15 @@ export const siteConfig = {
   name: "Kalyani Mercantile",
   tagline: "Many Needs. One Trusted Partner.",
   description:
-    "Procurement and supply solutions for businesses. We help organisations source industrial equipment, products and supplies with clear communication, competitive quotations and dependable coordination.",
+    "Procurement and supply solutions across industrial, commercial, food and dairy, infrastructure, office and institutional needs. Kalyani Mercantile helps organisations source products and project supplies through clear quotations and supplier coordination.",
   category: "Procurement & Supply Solutions",
-  /** Set only after a real custom domain has been selected. */
-  siteUrl: import.meta.env.VITE_SITE_URL || "",
+  /** Production domain is set to the owner's selected domain; VITE_SITE_URL can override it per environment. */
+  siteUrl: (import.meta.env.VITE_SITE_URL || "https://kalyanimerchantile.tech").replace(/\/$/, ""),
   announcement: "Procurement & Supply Solutions for Business",
 
   // Contact details — only shown when a value is provided.
   phone: "+91 7075539156",
-  email: "contact@kalyanimerchantile.com",
+  email: "sales.team@kalyanimerchantile.tech",
   whatsapp: "",
   address: "", // e.g. "Kakinada, Andhra Pradesh, India"
   businessHours: "", // e.g. "Mon–Sat, 10:00 AM – 6:30 PM"
@@ -37,7 +37,7 @@ export const siteConfig = {
   defaultSeo: {
     title: "Kalyani Mercantile — Procurement & Supply Solutions",
     description:
-      "Kalyani Mercantile helps businesses source industrial equipment and supplies. Request quotations for products you need — no hidden prices, no invented claims.",
+      "Kalyani Mercantile helps businesses source industrial, food and dairy, road, office and commercial supplies. Share your requirement for a clear quotation.",
     openGraph: {
       site_name: "Kalyani Mercantile",
       type: "website",

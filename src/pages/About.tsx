@@ -5,7 +5,7 @@ export function About() {
     <>
       <SEO
         title="About Us — Built Around Your Procurement Requirements"
-        description="Kalyani Mercantile is a procurement and supply partner helping businesses source equipment and products with clear communication and dependable coordination."
+        description="Kalyani Mercantile helps businesses source products across industrial, commercial, food and dairy, infrastructure, office and institutional requirements."
         path="/about"
       />
       <section className="py-20">
@@ -15,11 +15,10 @@ export function About() {
             Built Around Your Procurement Requirements.
           </h1>
           <p className="text-slate text-lg leading-relaxed">
-            Kalyani Mercantile is being developed as a procurement and supply
-            partner for businesses seeking equipment, products and sourcing
-            support. Our approach centres on understanding each requirement,
-            communicating clearly, and coordinating with relevant suppliers to
-            help customers make informed purchasing decisions.
+            Kalyani Mercantile helps businesses source products across
+            industrial, commercial, food and dairy, infrastructure, office and
+            institutional requirements. Share the item, quantity and destination;
+            we coordinate sourcing options and a clear quotation.
           </p>
         </div>
 
@@ -72,26 +71,25 @@ export function About() {
           <Section title="Our commitment to transparent communication" body={
             <>
               <p>
-                Pricing is never invented or displayed without a verified
-                quotation. We aim to keep communication organised using your
-                preferred contact method, from quotation through to order
-                confirmation.
+                We prepare clear quotations for the exact products and
+                quantities requested, with commercial terms shared before you
+                decide. Communication stays organised from enquiry through
+                order confirmation.
               </p>
             </>
           } />
 
-          <Section title="The types of requirements we aim to support" body={
+          <Section title="A broad sourcing range" body={
             <>
               <ul className="list-disc list-inside space-y-3 text-slate leading-relaxed mt-4">
-                <li>Industrial equipment and access platforms</li>
-                <li>Material handling and warehouse equipment</li>
-                <li>Electrical and technical supplies</li>
-                <li>Chemicals and industrial consumables</li>
-                <li>General business procurement requirements</li>
+                <li>Industrial equipment, tools, electricals and automation</li>
+                <li>Food and dairy processing chemicals and supplies</li>
+                <li>Road construction materials, including road tar requirements</li>
+                <li>Stationery, office and institutional supplies</li>
+                <li>Cleaning, safety, hospitality, plumbing and project needs</li>
               </ul>
-              <p className="text-xs text-slate/50 mt-4">
-                These are intended categories of support. Product availability
-                depends on suppliers and is confirmed per enquiry.
+              <p className="text-sm text-slate mt-4">
+                Don’t see your item here? Our sourcing scope isn’t limited to these categories—send us any business or project requirement.
               </p>
             </>
           } />
